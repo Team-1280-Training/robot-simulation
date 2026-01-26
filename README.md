@@ -1,7 +1,8 @@
 # Robot Simulation
-
 Current year: 2026
 
+## Training
+Trainees, please go to [`TRAINING.md`](TRAINING.md)
 
 
 ## Custom Assets

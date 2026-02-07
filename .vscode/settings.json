@@ -67,5 +67,7 @@
 
     "redhat.telemetry.enabled": false,
 
-    "wpilib.skipSelectSimulateExtension": true
+    "wpilib.skipSelectSimulateExtension": true,
+
+    "chat.disableAIFeatures": true
 }

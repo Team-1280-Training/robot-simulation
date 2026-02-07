@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.arm.ArmConfig;
 import frc.robot.arm.ArmConst;
 
+/** Class that adds simulation capabilities to the arm subsystem internally */
 public class ArmSimulationBase extends SubsystemBase {
     private final TalonFX motor = new TalonFX(ArmConst.MOTOR_ID);
     private final CANcoder encoder = new CANcoder(ArmConst.ENCODER_ID);
@@ -41,6 +42,7 @@ public class ArmSimulationBase extends SubsystemBase {
         encoder.getConfigurator().apply(ArmConfig.encoderConfig);
     }
 
+    // This method must be exposed so that the simulation code in Robot always compiles
     public Angle getAngle() {
         throw new UnsupportedOperationException("getAngle() must be implemented in ArmSubsystem");
     }

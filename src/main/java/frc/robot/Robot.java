@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+
 import frc.robot.arm.ArmConst;
 import frc.robot.arm.ArmSubsystem;
 import frc.robot.drivetrain.CommandSwerveDrivetrain;
@@ -53,7 +54,7 @@ public class Robot extends TimedRobot {
     }
 
     private void initBindings() {
-        // Drive bindings
+        // drive bindings
         double speed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond) * 0.15;
         double angularSpeed = RotationsPerSecond.of(1.0).in(RadiansPerSecond);
         final SwerveRequest.FieldCentric driveRequest =
@@ -70,11 +71,11 @@ public class Robot extends TimedRobot {
                                         .withRotationalRate(
                                                 controller.getRightX() * angularSpeed)));
 
-        // Elevator bindings
+        // elevator bindings
         controller.y().onTrue(elevator.runOnce(() -> elevator.moveHeightFraction(1.0)));
         controller.a().onTrue(elevator.runOnce(() -> elevator.moveHeightFraction(0.0)));
 
-        // Arm bindings
+        // arm bindings
         controller.b().onTrue(arm.runOnce(() -> arm.moveAngle(ArmConst.MIN_ANGLE)));
         controller.x().onTrue(arm.runOnce(() -> arm.moveAngle(ArmConst.MAX_ANGLE)));
         controller.povUp().onTrue(arm.runOnce(() -> arm.moveAngle(Rotations.of(0.0))));
@@ -113,11 +114,17 @@ public class Robot extends TimedRobot {
     @Override
     public void testPeriodic() {}
 
+    // simulation code below: trainees, ignore this
     private final Mechanism2d mechanism = new Mechanism2d(1.5, 2.5);
     private final MechanismRoot2d mechanismRoot = mechanism.getRoot("root", 0.75, 0.05);
     private final MechanismLigament2d elevatorLigament =
             mechanismRoot.append(
-                    new MechanismLigament2d("elevator", ElevatorConst.MIN_HEIGHT.in(Meters), 90, 6, new Color8Bit(Color.kBlue)));
+                    new MechanismLigament2d(
+                            "elevator",
+                            ElevatorConst.MIN_HEIGHT.in(Meters),
+                            90,
+                            6,
+                            new Color8Bit(Color.kBlue)));
     private final MechanismLigament2d armLigament =
             elevatorLigament.append(
                     new MechanismLigament2d(

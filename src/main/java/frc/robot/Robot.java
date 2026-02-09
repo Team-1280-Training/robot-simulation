@@ -134,16 +134,16 @@ public class Robot extends TimedRobot {
                             "elevator",
                             ElevatorConst.MIN_HEIGHT.in(Meters),
                             90,
-                            6,
-                            new Color8Bit(Color.kBlue)));
+                            16,
+                            new Color8Bit(Color.kGray)));
     private final MechanismLigament2d armLigament =
             elevatorLigament.append(
                     new MechanismLigament2d(
                             "arm",
                             ArmConst.LENGTH.in(Meters),
                             ArmConst.MAX_ANGLE.in(Degrees) - 90,
-                            8,
-                            new Color8Bit(Color.kPurple)));
+                            10,
+                            new Color8Bit(64, 64, 64)));
 
     @Override
     public void simulationInit() {}

@@ -14,6 +14,9 @@ import static edu.wpi.first.units.Units.RotationsPerSecond;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
@@ -37,9 +40,11 @@ public class Robot extends TimedRobot {
     private final ElevatorSubsystem elevator = new ElevatorSubsystem();
     private final ArmSubsystem arm = new ArmSubsystem();
 
-    private final Field2d field = new Field2d();
-
     private final CommandXboxController controller = new CommandXboxController(0);
+
+    private final Field2d field = new Field2d();
+    private final StructPublisher<Pose2d> posePublisher =
+            NetworkTableInstance.getDefault().getStructTopic("Robot Pose", Pose2d.struct).publish();
 
     public Robot() {
         initDashboard();
@@ -48,6 +53,7 @@ public class Robot extends TimedRobot {
 
     private void initDashboard() {
         SmartDashboard.putData("Field", field);
+        posePublisher.set(Pose2d.kZero);
         SmartDashboard.putData("Mechanism", mechanism);
         SmartDashboard.putData("Elevator", elevator);
         SmartDashboard.putData("Arm", arm);
@@ -81,13 +87,18 @@ public class Robot extends TimedRobot {
         controller.povUp().onTrue(arm.runOnce(() -> arm.moveAngle(Rotations.of(0.0))));
     }
 
+    public Pose2d getPose() {
+        return drivetrain.getState().Pose;
+    }
+
     @Override
     public void robotInit() {}
 
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
-        field.setRobotPose(drivetrain.getState().Pose);
+        field.setRobotPose(getPose());
+        posePublisher.set(getPose());
     }
 
     @Override

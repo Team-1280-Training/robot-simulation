@@ -34,6 +34,8 @@ import frc.robot.drivetrain.CommandSwerveDrivetrain;
 import frc.robot.drivetrain.TunerConstants;
 import frc.robot.elevator.ElevatorConst;
 import frc.robot.elevator.ElevatorSubsystem;
+import frc.robot.simulation.ArmSimulation;
+import frc.robot.simulation.ElevatorSimulation;
 
 public class Robot extends TimedRobot {
     private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
@@ -126,6 +128,9 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {}
 
     // simulation code below: trainees, ignore this
+    private final ElevatorSimulation elevatorSim = new ElevatorSimulation();
+    private final ArmSimulation armSim = new ArmSimulation();
+
     private final Mechanism2d mechanism = new Mechanism2d(1.5, 2.5);
     private final MechanismRoot2d mechanismRoot = mechanism.getRoot("root", 0.75, 0.05);
     private final MechanismLigament2d elevatorLigament =
@@ -150,7 +155,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void simulationPeriodic() {
-        elevatorLigament.setLength(elevator.getSimulationHeight().in(Meters));
-        armLigament.setAngle(arm.getSimulationAngle().in(Degrees) - 90);
+        elevatorSim.simulationPeriodic();
+        armSim.simulationPeriodic();
+
+        elevatorLigament.setLength(elevatorSim.getSimHeight().in(Meters));
+        armLigament.setAngle(armSim.getSimAngle().in(Degrees) - 90);
     }
 }

@@ -13,12 +13,10 @@ import edu.wpi.first.units.measure.Dimensionless;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.elevator.ElevatorConst;
 
-/** Class that adds simulation capabilities to the elevator subsystem internally */
-public class ElevatorSimulationBase extends SubsystemBase {
+public class ElevatorSimulation {
     // Multiple TalonFX instances with the same motor ID share the same state
     private final TalonFX motor = new TalonFX(ElevatorConst.MOTOR_ID);
 
@@ -33,18 +31,20 @@ public class ElevatorSimulationBase extends SubsystemBase {
                     true,
                     ElevatorConst.MIN_HEIGHT.in(Meters));
 
-    protected ElevatorSimulationBase() {
+    public ElevatorSimulation() {
         motorSim.Orientation = ChassisReference.Clockwise_Positive;
     }
 
-    public Distance getSimulationHeight() {
+    public Distance getSimHeight() {
         return ElevatorConst.MIN_HEIGHT.plus(
                 ElevatorConst.MAX_HEIGHT
                         .minus(ElevatorConst.MIN_HEIGHT)
-                        .times(motor.getPosition().getValueAsDouble())); // Simple linear interpolation
+                        .times(
+                                motor.getPosition()
+                                        .getValueAsDouble())); // Simple linear interpolation
     }
 
-    @Override
+    /** Call this method in a simulationPeriodic() method */
     public void simulationPeriodic() {
         motorSim.setSupplyVoltage(RobotController.getBatteryVoltage());
         elevatorSim.setInputVoltage(motorSim.getMotorVoltageMeasure().in(Volts));

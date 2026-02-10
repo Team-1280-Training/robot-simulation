@@ -8,7 +8,6 @@ import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
@@ -29,18 +28,14 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import frc.robot.arm.ArmConst;
-import frc.robot.arm.ArmSubsystem;
 import frc.robot.drivetrain.CommandSwerveDrivetrain;
 import frc.robot.drivetrain.TunerConstants;
 import frc.robot.elevator.ElevatorConst;
-import frc.robot.elevator.ElevatorSubsystem;
 import frc.robot.simulation.ArmSimulation;
 import frc.robot.simulation.ElevatorSimulation;
 
 public class Robot extends TimedRobot {
     private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-    private final ElevatorSubsystem elevator = new ElevatorSubsystem();
-    private final ArmSubsystem arm = new ArmSubsystem();
 
     private final CommandXboxController controller = new CommandXboxController(0);
 
@@ -57,8 +52,6 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Field", field);
         posePublisher.set(Pose2d.kZero);
         SmartDashboard.putData("Mechanism", mechanism);
-        SmartDashboard.putData("Elevator", elevator);
-        SmartDashboard.putData("Arm", arm);
     }
 
     private void initBindings() {
@@ -78,15 +71,6 @@ public class Robot extends TimedRobot {
                                         .withVelocityY(controller.getLeftX() * speed)
                                         .withRotationalRate(
                                                 controller.getRightX() * angularSpeed)));
-
-        // elevator bindings
-        controller.y().onTrue(elevator.runOnce(() -> elevator.moveHeightFraction(1.0)));
-        controller.a().onTrue(elevator.runOnce(() -> elevator.moveHeightFraction(0.0)));
-
-        // arm bindings
-        controller.b().onTrue(arm.runOnce(() -> arm.moveAngle(ArmConst.MIN_ANGLE)));
-        controller.x().onTrue(arm.runOnce(() -> arm.moveAngle(ArmConst.MAX_ANGLE)));
-        controller.povUp().onTrue(arm.runOnce(() -> arm.moveAngle(Rotations.of(0.0))));
     }
 
     public Pose2d getPose() {

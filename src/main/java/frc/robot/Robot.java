@@ -31,12 +31,13 @@ import frc.robot.arm.ArmConst;
 import frc.robot.drivetrain.CommandSwerveDrivetrain;
 import frc.robot.drivetrain.TunerConstants;
 import frc.robot.elevator.ElevatorConst;
+import frc.robot.elevator.ElevatorSubsystem;
 import frc.robot.simulation.ArmSimulation;
 import frc.robot.simulation.ElevatorSimulation;
 
 public class Robot extends TimedRobot {
     private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-
+    private final ElevatorSubsystem elevator = new ElevatorSubsystem();
     private final CommandXboxController controller = new CommandXboxController(0);
 
     private final Field2d field = new Field2d();
@@ -71,6 +72,7 @@ public class Robot extends TimedRobot {
                                         .withVelocityY(controller.getLeftX() * speed)
                                         .withRotationalRate(
                                                 controller.getRightX() * angularSpeed)));
+        controller.y().onTrue(null);
     }
 
     public Pose2d getPose() {

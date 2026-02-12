@@ -59,7 +59,11 @@
   ],
 
   "[java]": {
-    "editor.defaultFormatter": "josevseb.google-java-format-for-vs-code"
+    "editor.defaultFormatter": "josevseb.google-java-format-for-vs-code",
+
+    // Set indentation to 4 explicitly for Java, since a formatter is enforced
+    "editor.tabSize": 4,
+    "editor.detectIndentation": false
   },
   "java.format.settings.google.extra": "--aosp", // For 4 space indentation
   "editor.formatOnSave": true,

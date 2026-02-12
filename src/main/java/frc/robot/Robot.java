@@ -53,6 +53,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Field", field);
         posePublisher.set(Pose2d.kZero);
         SmartDashboard.putData("Mechanism", mechanism);
+        SmartDashboard.putData("Elevator", elevator);
     }
 
     private void initBindings() {
@@ -72,7 +73,8 @@ public class Robot extends TimedRobot {
                                         .withVelocityY(controller.getLeftX() * speed)
                                         .withRotationalRate(
                                                 controller.getRightX() * angularSpeed)));
-        controller.y().onTrue(null);
+        controller.y().onTrue(elevator.run(() -> elevator.moveHeightFraction(1.0)));
+        controller.a().onTrue(elevator.run(() -> elevator.moveHeightFraction(0.0)));
     }
 
     public Pose2d getPose() {

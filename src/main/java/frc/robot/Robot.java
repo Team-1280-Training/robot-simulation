@@ -71,6 +71,8 @@ public class Robot extends TimedRobot {
                                         .withVelocityY(controller.getLeftX() * speed)
                                         .withRotationalRate(
                                                 controller.getRightX() * angularSpeed)));
+
+        // operator bindings
     }
 
     public Pose2d getPose() {

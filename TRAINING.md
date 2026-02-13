@@ -5,6 +5,8 @@ You will learn WPILib coding and general FRC programming.
 
 > Note: Please refrain from copying the code snippets from the instructions into your code.
 
+<!-- TODO: table of contents -->
+
 ## Setup Part 1
 
 ### WPILib Installation
@@ -85,6 +87,8 @@ Since this is a simulation (no physical robot), we will also use the dashboards 
 
 Since there is no physical robot, you will just simulate the robot code instead with `>WPILib: Simulate Robot Code` command. \
 Run that command now.
+
+> Note: You must redeploy or re-simulate your code if you want any new code changes to take effect.
 
 Once it builds, the simulation will open a specific dashboard called the *simulation GUI*.
 
@@ -757,7 +761,9 @@ Try simulating the robot code now.
 
 The target height fraction switches between `1.0` and `0.0` as you control the elevator.
 
-Use the dashboard to set the value of `target height fraction` to a value like `0.5`, which uses the property setter.
+Use the dashboard to set the value of `target height fraction` to a value like `0.5`, which uses the property setter. You should see the target height jump to `0.5` and stay there.
+
+If setting this does not work and the target height fraction does not change and stay, then check your setter lambda.
 
 Try setting it to `2.0`. What happens, and why?
 
@@ -776,7 +782,7 @@ In robotics programming, one common problem is documenting the units of physical
 
 To solve this, there is an optional library (package) called the `Units` library which provides classes that document this directly in the variable type, in addition to making unit conversions explicit and automatic.
 
-**Read the Units library documentation [here](https://docs.wpilib.org/en/stable/docs/software/basic-programming/java-units.html)**, up until before the `Mutability and Object Creation` section.
+**Read the Units library documentation [here](https://docs.wpilib.org/en/stable/docs/software/basic-programming/java-units.html)**, skipping the `Using Composite Unit Types` section, and reading up until before the `Mutability and Object Creation` section.
 
 Once you are done, read `ElevatorConst.java` again and try to understand it.
 
@@ -798,6 +804,26 @@ The operation needed is called a *linear interpolation*, abbreviated "lerp". Sea
 
 </details>
 
+> Note: One might want to make utility methods for converting height fractions to heights and vice versa, but we don't need to implement that currently unless we feel it will probably be used.
+
+It's best to always test the code whenever you implement something new. Test your new method.
+
+Add a `double` property (`builder.addDoubleProperty()`) in `ElevatorSubsystem` for the elevator height in meters. Be sure to include the distance unit in the property key. \
+Also remember that the setter should be `null` since there is nothing to set.
+
+When putting this data on the dashboard, it is often best to convert the distance to a double in a standard unit, so that it is a numeric value that can be plotted.
+
+> Hint: Use the `in(DistanceUnit unit)` method of a `Distance` object to convert it into a double quanitty of a specific unit.
+
+Simulate the robot code, and add a new plot for the meter `height` of the robot. Then, control the elevator and test if the values are correct.
+
+> Tip: At elevator bottom, it should be equal to the value from `MIN_HEIGHT`. At elevator top, it should be equal to the value from `MAX_HEIGHT`.
+
+Debug your code and fix it until it works.
+
+> Tip: To debug your code, look at what happens in your code when the `getHeightFraction()` returns `0.0` (elevator is at bottom), and what happens when it returns `1.0`. \
+> Just write out the numbers and see what it results in.
+
 <details><summary>Method code</summary>
 
 ```java
@@ -808,18 +834,12 @@ Or:
 ```java
 return ElevatorConst.MIN_HEIGHT.plus(ElevatorConst.MAX_HEIGHT.minus(ElevatorConst.MIN_HEIGHT).times(getHeightFraction()));
 ```
+Or:
+```java
+return Meters.of(ElevatorConst.MIN_HEIGHT.in(Meters) + getHeightFraction() * (ElevatorConst.MAX_HEIGHT.in(Meters) - ElevatorConst.MIN_HEIGHT.in(Meters)));
+```
 
 </details>
-
-> Note: One might want to make utility methods for converting height fractions to heights and vice versa, but we don't need to implement that currently unless we feel it will probably be used.
-
-When putting this data on the dashboard, it is often best to convert the distance to a double in a standard unit, so that it is a numeric value that can be plotted.
-
-Add a `double` property in `ElevatorSubsystem` for the elevator height in meters. Be sure to include the distance unit in the property key.
-
-> Hint: Use the `in(DistanceUnit unit)` method of a `Distance` object to convert it into a double quanitty of a specific unit.
-
-It's best to always test whenever you implement something new. Simulate the robot code, and add a new plot for the meter `height` of the robot. Then, control the elevator and check that the values are correct.
 
 ### Arm Subsystem
 Now that you've implemented `ElevatorSubsystem` under detailed instruction, let's see how you do with minimal guidance.
@@ -830,16 +850,26 @@ If you are stuck, try to reference your `ElevatorSubsystem` code or previous ins
 
 This is intended to help you become an independent programmer that can perform a lot of work without the assistance of a more experienced programmer.
 
+#### Notes
+`ArmSubsystem.java` will need to be created from scratch.
+
+You will need to research and use the encoder (type `CANCoder`) that is on the arm and properly calibrated.
+
+A rotation of zero degrees is point horizontally straight out (to the right in the `Mechanism` widget in sim GUI). A positive rotation goes upwards (counterclockwise in the `Mechanism` widget).
+
 #### Requirements
-Implement the arm subsystem with proper logging, safety, and code structure.
-
-A rotation of zero degrees is point horizontally straight out (to the right in the `Mechanism` widget). A positive rotation goes upwards (counterclockwise in the `Mechanism` widget).
-
-Research and use the encoder (type `CANCoder`) that is on the arm and properly calibrated.
+Implement the arm subsystem with proper logging, safety, documentation, and code structure.
 
 Controls:
 - `B` controller button (`H`): move the arm down to minimum angle
 - `X` controller button (`F`): move the arm up to maximum angle
+
+The arm always starts at the maximum angle.
+
+#### Review
+Make sure to test your code frequently while programming.
+
+Once you are done, have your code reviewed by an instructor.
 
 ### Control Theory
 In robotics and engineering in general, a core problem is figuring out how to get a motor to do what we want.

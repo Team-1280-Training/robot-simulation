@@ -8,7 +8,6 @@ import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
@@ -79,14 +78,15 @@ public class Robot extends TimedRobot {
                                         .withRotationalRate(
                                                 controller.getRightX() * angularSpeed)));
 
-        // elevator bindings
+        // operator bindings
+
+        // elevator
         controller.y().onTrue(elevator.runOnce(() -> elevator.moveHeightFraction(1.0)));
         controller.a().onTrue(elevator.runOnce(() -> elevator.moveHeightFraction(0.0)));
 
-        // arm bindings
+        // arm
         controller.b().onTrue(arm.runOnce(() -> arm.moveAngle(ArmConst.MIN_ANGLE)));
         controller.x().onTrue(arm.runOnce(() -> arm.moveAngle(ArmConst.MAX_ANGLE)));
-        controller.povUp().onTrue(arm.runOnce(() -> arm.moveAngle(Rotations.of(0.0))));
     }
 
     public Pose2d getPose() {

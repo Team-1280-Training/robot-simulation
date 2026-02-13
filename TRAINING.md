@@ -7,6 +7,11 @@ You will learn WPILib coding and general FRC programming.
 
 <!-- TODO: table of contents -->
 
+## Attribution
+All of almost all of this file and the codebase were written by @aatle on GitHub.
+
+*No AI was used to write any parts of this project.*
+
 ## Setup Part 1
 
 ### WPILib Installation
@@ -183,6 +188,8 @@ Now, try rotating the robot with `J` and `L` keybinds. \
 You can see the plotted value change over time!
 
 (Note that the rotation value wraps around from `-180` to `180` or vice versa.)
+
+> Tip: Double-clicking the plot also automatically resizes the minimum and maximum.
 
 ### Glass
 The Glass dashboard has an interface just like the simulation GUI, but can also be used for the physical robot.
@@ -695,6 +702,8 @@ The final builder method call should look like this:
 builder.addDoubleProperty("height fraction", () -> getHeightFraction(), null);
 ```
 
+> Note: You can add slashes `/` to the property key to use or create dropdowns and hierarchies.
+
 While the elevator sendable is now initialized properly, the elevator itself still needs to be sent to the dashboard.
 
 In `Robot.java`, in the `initDashboard()` method, add another call to `SmartDashboard.putData()` at the end, similar to as for `field` and `mechanism`.
@@ -846,14 +855,14 @@ Now that you've implemented `ElevatorSubsystem` under detailed instruction, let'
 
 Implement the `ArmSubsystem` according to the descriptive requests (requirements) from the instructions.
 
-If you are stuck, try to reference your `ElevatorSubsystem` code or previous instructions on the concept, or search up what you need help with.
+If you are stuck, try to reference your `ElevatorSubsystem` code or previous instructions on the concept (but as little as possible), or search up what you need help with.
 
 This is intended to help you become an independent programmer that can perform a lot of work without the assistance of a more experienced programmer.
 
 #### Notes
 `ArmSubsystem.java` will need to be created from scratch.
 
-You will need to research and use the encoder (type `CANCoder`) that is on the arm and properly calibrated.
+You will need to research and use the encoder (type `CANCoder` from wpilib) that is on the arm and properly calibrated.
 
 A rotation of zero degrees is point horizontally straight out (to the right in the `Mechanism` widget in sim GUI). A positive rotation goes upwards (counterclockwise in the `Mechanism` widget).
 
@@ -1045,3 +1054,55 @@ Note that by step 7, the feedforward control (combined with motion profiling) al
 Go to https://docs.wpilib.org/en/stable/docs/software/advanced-controls/introduction/tuning-elevator.html#motion-profiled-feedforward-and-feedback-control and try tuning the elevator according the the procedure given above. Experiment and play around with it.
 
 Then, compare your solution to the given tuning solution.
+
+#### Tuning the Robot Elevator
+In `ElevatorConfig`, there are gains for both feedback, forward, and motion profiling (via Motion Magic).
+
+The current configured gains are decent but they need a lot of improvement. For example, the elevator has a noticeable delay when switching to moving up while moving down. It also is quite slow.
+
+To tune the elevator, use the simulation GUI or Glass to assist you.
+
+Control the elevator with the controller bindings or with the dashboard property setters.
+
+Plot useful height fraction values on one plot.
+
+One additional helpful value to add to dashboard and plot is the motion profiling setpoint, which is separate from both the target height fraction and the measured height fraction. \
+It is gettable with `motor.getClosedLoopReference().getValue()`.
+
+Additionally, you can add properties for the gains and constants such as `kP`, so you can edit them without restarting the simulation. You can do this by having a property setter that both sets the gain field and applies the configuration.
+
+For organization, you can put these tuning constants under another dropdown `tuning`, by having the key be `tuning/kP` e.g.
+
+<details><summary>Gain property</summary>
+
+```java
+builder.addDoubleProperty(
+        "tuning/kP",
+        () -> ElevatorConfig.motorConfig.Slot0.kP,
+        (kP) -> {
+            ElevatorConfig.motorConfig.Slot0.kP = kP;
+            motor.getConfigurator().apply(ElevatorConfig.motorConfig.Slot0);
+        });
+```
+> Tip: You can also extract out `ElevatorConfig.motorConfig.Slot0` into a local variable in `initSendable`, to condense the code.
+
+</details>
+
+> Warning: For a physical robot, you should be careful around the elevator limits. Crashing into the minimum and maximum heights is a safety hazard and may damage the robot. \
+> Try tuning in a smaller range such as from `0.1` to `0.9` to avoid hitting the limits like you would for a real robot.
+
+#### Tuning the Robot Arm
+The arm gains are also not optimal. Tune those constants too, being careful not to crash into the arm's limits.
+
+You can also reference https://docs.wpilib.org/en/stable/docs/software/advanced-controls/introduction/tuning-vertical-arm.html#combined-feedforward-and-feedback-control for a user-friendly sandbox.
+
+Test your tuning constants with a variety of situations including abruptly changing targets, and unmoving targets.
+
+## End of Training
+Congratulations! You have finished advanced programming training.
+
+This training gave you an introduction to the essential concepts of FRC programming. It is not intended to be the the entirety and the end of what you learn.
+
+The purpose of this training is to give you enough experience to be able to learn without guidance in the future. Once you have reached that point, you have become a capable and qualified programmer.
+
+You will continue to learn as you advance to programming on the season codebase as a subteam member.

@@ -402,8 +402,24 @@ new TalonFX(ElevatorConst.MOTOR_ID)
 #### Configuring the Motor
 The motor needs to be configured correctly.
 
-The elevator motor configuration is provided in `ElevatorConfig` called `motorConfig`. \
-It sets a current limit, tells it to brake when neutral, gives values needed for controlling the motor, etc.
+The elevator motor configuration is provided in `ElevatorConfig` called `motorConfig`.
+
+Add the following code inside and at the start of the `static {}` block in `ElevatorConfig`:
+```java
+motorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+motorConfig.CurrentLimits.StatorCurrentLimit = CURRENT_LIMIT.in(Amps);
+motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+motorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive; // positive is up
+```
+Let's look at each line of these 4 lines (no need to understand the details fully):
+1. Enable the current limit for the motor
+2. Set the current limit to the configuration constant
+3. When the elevator motor is idle or disabled, set the motor to brake (as opposed to coast)
+4. Set the positive motor rotation direction to be clockwise, so the elevator goes up for positive output
+
+Whenever configuring a motor, you should set a current limit, give a neutral mode, and set the motor direction.
+
+> Note: The other existing motor configuration tells the motor how its movement should behave for control requests.
 
 In `ElevatorSubsystem`, write a constructor for the class that takes no arguments. A constructor is similar to a *method* except it has no return type and its name must be the same as the class's.
 

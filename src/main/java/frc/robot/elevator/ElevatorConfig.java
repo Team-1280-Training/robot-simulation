@@ -27,7 +27,7 @@ public final class ElevatorConfig {
         motorConfig.Slot0.GravityType = GravityTypeValue.Elevator_Static;
 
         // PID unit: Height fraction (0.0-1.0)
-        motorConfig.Slot0.kG = -0.3; // NOTE: a spring exists on the elevator, holding it up
+        motorConfig.Slot0.kG = 0.0;
         motorConfig.Slot0.kS = 0.0;
         motorConfig.Slot0.kV = 15.0;
         motorConfig.Slot0.kA = 0.0;

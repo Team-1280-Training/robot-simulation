@@ -128,8 +128,10 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {}
 
     // simulation code below: trainees, ignore this
-    private final ElevatorSimulation elevatorSim = new ElevatorSimulation();
-    private final ArmSimulation armSim = new ArmSimulation();
+
+    // Must be static so it initializes before subsystems
+    private static final ElevatorSimulation elevatorSim = new ElevatorSimulation();
+    private static final ArmSimulation armSim = new ArmSimulation();
 
     private final Mechanism2d mechanism = new Mechanism2d(1.5, 2.5);
     private final MechanismRoot2d mechanismRoot = mechanism.getRoot("root", 0.75, 0.05);

@@ -5,7 +5,64 @@ You will learn WPILib coding and general FRC programming.
 
 > Note: Please refrain from copying the code snippets from the instructions into your code.
 
-<!-- TODO: table of contents -->
+## Table of Contents
+- [Table of Contents](#table-of-contents)
+- [Attribution](#attribution)
+- [Setup Part 1](#setup-part-1)
+    - [WPILib Installation](#wpilib-installation)
+    - [GitHub](#github)
+    - [Cloning](#cloning)
+- [Setup Part 2](#setup-part-2)
+    - [View](#view)
+    - [Extension Installation](#extension-installation)
+- [Dashboards](#dashboards)
+    - [Running the Robot](#running-the-robot)
+    - [Simulation GUI](#simulation-gui)
+        - [Dashboard Terminology](#dashboard-terminology)
+        - [Widgets](#widgets)
+        - [Driving the Robot](#driving-the-robot)
+        - [Plotting Values](#plotting-values)
+    - [Glass](#glass)
+    - [AdvantageScope](#advantagescope)
+    - [Robot Design](#robot-design)
+- [Programming](#programming)
+    - [Java Recap](#java-recap)
+    - [Elevator Subsystem](#elevator-subsystem)
+        - [Initializing the Motor](#initializing-the-motor)
+        - [Configuring the Motor](#configuring-the-motor)
+        - [Adding Subsystems to the Robot](#adding-subsystems-to-the-robot)
+        - [Using the Motor](#using-the-motor)
+            - [Testing Mechanism Movement](#testing-mechanism-movement)
+            - [Movement Method](#movement-method)
+            - [Adding Safety Limits](#adding-safety-limits)
+        - [Adding Bindings to the Robot](#adding-bindings-to-the-robot)
+            - [Runnables and Lambdas](#runnables-and-lambdas)
+            - [Commands](#commands)
+            - [Testing the Bindings](#testing-the-bindings)
+        - [Adding Dashboard Information](#adding-dashboard-information)
+            - [Measured Height Fraction](#measured-height-fraction)
+            - [Sendables, Builders, and Properties](#sendables-builders-and-properties)
+            - [Seeing Properties on the Dashboard](#seeing-properties-on-the-dashboard)
+            - [Target Height Fraction](#target-height-fraction)
+            - [Measured Height Distance](#measured-height-distance)
+    - [Arm Subsystem](#arm-subsystem)
+        - [Notes](#notes)
+        - [Requirements](#requirements)
+        - [Review](#review)
+    - [Control Theory](#control-theory)
+        - [Control Terminology](#control-terminology)
+        - [Feedback Control](#feedback-control)
+            - [PID Spring Analogy](#seeing-properties-on-the-dashboard)
+            - [PID Definition](#pid-definition)
+            - [Using Velocity as the Control Unit](#using-velocity-as-the-control-unit)
+        - [Feedforward Control](#feedforward-control)
+        - [Motion Profiling](#motion-profiling)
+        - [Tuning Gains](#tuning-gains)
+            - [Elevator Tuning Sandbox](#elevator-tuning-sandbox)
+            - [Tuning the Robot Elevator](#tuning-the-robot-elevator)
+            - [Tuning the Robot Arm](#tuning-the-robot-arm)
+- [Reference Solution Codebase](#reference-solution-codebase)
+- [End of Training](#end-of-training)
 
 ## Attribution
 All of almost all of this file and the codebase were written by @aatle on GitHub.
@@ -41,7 +98,7 @@ Near the top, click the `Fork` button. In the opened page, you can use the defau
 
 Once you have created the repository, open your WPILib VS Code application.
 
-#### Cloning
+### Cloning
 In WPILib VS Code, open the *Command Palette*, by using a keyboard shortcut or clicking the top search bar and typing a `>`. \
 Windows, Linux: `F1` or `Ctrl`+`Shift`+`P` \
 Mac: `fn`+`F1` or `Command`+`Shift`+`P`
@@ -104,7 +161,7 @@ There is a ton of information on the simulation GUI, so let's go through the imp
 
 > Note: Currently, you are viewing the default layout of the sim GUI. The edits you make to the layout are saved locally (to some JSON files in the workspace) for the next time you open the sim GUI.
 
-#### Terminology
+#### Dashboard Terminology
 Each window on the GUI is a *widget*. Widgets can be dragged around, collapsed, and closed. Some widgets are resizable.
 
 *NetworkTables* is an FRC communications protocol for sharing data over the network. The data is structured into hierarchical tables.
@@ -434,7 +491,7 @@ motor.getConfigurator().apply(ElevatorConfig.motorConfig)
 
 Be sure to save your code periodically, to automatically format the code.
 
-#### Adding the Subsystem to the Robot
+#### Adding Subsystems to the Robot
 Even though we've written this nice class, it isn't used anywhere yet.
 
 Navigate to `Robot.java`. Scroll down past the import statements to the start of the `Robot` class.
@@ -444,8 +501,6 @@ On a new line after it, add an `ElevatorSubsystem` field named `elevator`, insta
 ```java
 private final ElevatorSubsystem elevator = new ElevatorSubsystem();
 ```
-
-<!-- TOOD: set indentation size explicitly -->
 
 Now the elevator subsystem is activated and usable. (Ignore the orange squiggly warning.)
 
@@ -618,7 +673,7 @@ Breaking it down: \
 
 Add another similar line for setting the elevator height fraction to `0.0` upon pressing the `A` controller button.
 
-##### Testing
+##### Testing the Bindings
 Now, simulate the robot code. Put the mechanism widget in view.
 
 Once you set the robot to teleoperated, you can now control the elevator with `T` and `G` keyboard controls!
@@ -794,7 +849,7 @@ Try setting it to `2.0`. What happens, and why?
 
 Add the target height fraction property to the same plot as the measured height fraction. Now you can see the elevator's measured position responding to the desired position, all in one graph!
 
-##### Measured Height (Distance)
+##### Measured Height Distance
 The height fraction is a very useful measure and unit, but perhaps we'd like to know the exact height in meters that the top of the elevator is at.
 
 To do this, we must convert height fraction into a distance height by using the known constants of the minimum height and maximum height.
@@ -908,7 +963,7 @@ There are two primary mechanism control types:
 
 In practice, it is often best to use both at the same time, to achieve the advantages of both.
 
-#### Terminology
+#### Control Terminology
 The *setpoint* is the desired position or state of the mechanism. The programmer can choose the appropriate units, e.g. rotations, meters, or even angular velocity (where the motor tries to achieve a specified speed instead of a position).
 
 The *error* is the difference between the *setpoint* and the true position. Same units as setpoint.
@@ -1066,12 +1121,12 @@ Note that by step 7, the feedforward control (combined with motion profiling) al
 
 > Warning: Tuning PID is dangerous to both the robot and people, always be ready to disable the robot.
 
-#### Elevator Tuning Sandbox
+##### Elevator Tuning Sandbox
 Go to https://docs.wpilib.org/en/stable/docs/software/advanced-controls/introduction/tuning-elevator.html#motion-profiled-feedforward-and-feedback-control and try tuning the elevator according the the procedure given above. Experiment and play around with it.
 
 Then, compare your solution to the given tuning solution.
 
-#### Tuning the Robot Elevator
+##### Tuning the Robot Elevator
 In `ElevatorConfig`, there are gains for both feedback, forward, and motion profiling (via Motion Magic).
 
 The current configured gains are decent but they need a lot of improvement. For example, the elevator has a noticeable delay when switching to moving up while moving down. It also is quite slow.
@@ -1107,7 +1162,7 @@ builder.addDoubleProperty(
 > Warning: For a physical robot, you should be careful around the elevator limits. Crashing into the minimum and maximum heights is a safety hazard and may damage the robot. \
 > Try tuning in a smaller range such as from `0.1` to `0.9` to avoid hitting the limits like you would for a real robot.
 
-#### Tuning the Robot Arm
+##### Tuning the Robot Arm
 The arm gains are also not optimal. Tune those constants too, being careful not to crash into the arm's limits.
 
 You can also reference https://docs.wpilib.org/en/stable/docs/software/advanced-controls/introduction/tuning-vertical-arm.html#combined-feedforward-and-feedback-control for a user-friendly sandbox.

@@ -12,18 +12,18 @@ public final class ArmConfig {
     static {
 
         // PID unit: Rotations
-        motorConfig.Slot0.kP = 30.0;
+        motorConfig.Slot0.kP = 50.0;
         motorConfig.Slot0.kI = 0.0;
-        motorConfig.Slot0.kD = 1.0;
+        motorConfig.Slot0.kD = -0.5;
         motorConfig.Slot0.kS = 0.0;
-        motorConfig.Slot0.kV = 0.0;
-        motorConfig.Slot0.kA = 0.0;
-        motorConfig.Slot0.kG = 0.7;
+        motorConfig.Slot0.kV = 5.4;
+        motorConfig.Slot0.kA = 0.2;
+        motorConfig.Slot0.kG = 0.70;
         motorConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
         motorConfig.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseVelocitySign;
-        motorConfig.MotionMagic.MotionMagicCruiseVelocity = 0.2; // Target cruise velocity in rps
-        motorConfig.MotionMagic.MotionMagicAcceleration = 0.4; // Target acceleration in rps/s
-        motorConfig.MotionMagic.MotionMagicJerk = 0.8; // Target jerk in rps/(s^2)
+        motorConfig.MotionMagic.MotionMagicCruiseVelocity = 0.4; // Target cruise velocity in rps
+        motorConfig.MotionMagic.MotionMagicAcceleration = 2.0; // Target acceleration in rps/s
+        motorConfig.MotionMagic.MotionMagicJerk = 40.0; // Target jerk in rps/(s^2)
 
         // Use the encoder for PID feedback
         motorConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;

@@ -26,16 +26,16 @@ public final class ElevatorConfig {
         // PID unit: Height fraction (0.0-1.0)
         motorConfig.Slot0.kP = 40.0;
         motorConfig.Slot0.kI = 0.0;
-        motorConfig.Slot0.kD = 2.0;
+        motorConfig.Slot0.kD = -0.5;
         motorConfig.Slot0.kS = 0.0;
-        motorConfig.Slot0.kV = 15.0;
-        motorConfig.Slot0.kA = 0.0;
-        motorConfig.Slot0.kG = 0.0;
+        motorConfig.Slot0.kV = 5.0;
+        motorConfig.Slot0.kA = 0.05;
+        motorConfig.Slot0.kG = 0.101;
         motorConfig.Slot0.GravityType = GravityTypeValue.Elevator_Static;
         motorConfig.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseVelocitySign;
-        motorConfig.MotionMagic.MotionMagicCruiseVelocity = 2.0;
-        motorConfig.MotionMagic.MotionMagicAcceleration = 4.0;
-        motorConfig.MotionMagic.MotionMagicJerk = 40.0;
+        motorConfig.MotionMagic.MotionMagicCruiseVelocity = 0.45;
+        motorConfig.MotionMagic.MotionMagicAcceleration = 2.0;
+        motorConfig.MotionMagic.MotionMagicJerk = 0.0;
 
         motorConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
         // Make the motor mechanism position represent height fraction (0.0 to 1.0)

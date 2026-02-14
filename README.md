@@ -2,8 +2,7 @@
 Current year: 2026
 
 ## Training
-Trainees, please go to [`TRAINING.md`](TRAINING.md)
-
+This `solution` branch holds the reference solution for the training.
 
 ## Custom Assets
 TODO: https://docs.advantagescope.org/more-features/custom-assets/

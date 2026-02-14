@@ -1114,6 +1114,15 @@ You can also reference https://docs.wpilib.org/en/stable/docs/software/advanced-
 
 Test your tuning constants with a variety of situations including abruptly changing targets, and unmoving targets.
 
+## Reference Solution Codebase
+<details><summary>Solution</summary>
+
+The full solution is available at https://github.com/Team-1280-Training/robot-simulation/tree/solution.
+
+Check your work against the solution and notice any differences.
+
+</details>
+
 ## End of Training
 Congratulations! You have finished advanced programming training.
 

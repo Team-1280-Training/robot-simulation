@@ -463,16 +463,14 @@ The elevator motor configuration is provided in `ElevatorConfig` called `motorCo
 
 Add the following code inside and at the start of the `static {}` block in `ElevatorConfig`:
 ```java
-motorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
 motorConfig.CurrentLimits.StatorCurrentLimit = CURRENT_LIMIT.in(Amps);
 motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 motorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive; // positive is up
 ```
 Let's look at each line of these 4 lines (no need to understand the details fully):
-1. Enable the current limit for the motor
-2. Set the current limit to the configuration constant
-3. When the elevator motor is idle or disabled, set the motor to brake (as opposed to coast)
-4. Set the positive motor rotation direction to be clockwise, so the elevator goes up for positive output
+1. Set the current limit to the configuration constant
+2. When the elevator motor is idle or disabled, set the motor to brake (as opposed to coast)
+3. Set the positive motor rotation direction to be clockwise, so the elevator goes up for positive output
 
 Whenever configuring a motor, you should set a current limit, give a neutral mode, and set the motor direction.
 

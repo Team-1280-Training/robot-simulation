@@ -1,15 +1,27 @@
 package frc.robot.arm;
 
+import static edu.wpi.first.units.Units.Amps;
+
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
+import edu.wpi.first.units.measure.Current;
+
 public final class ArmConfig {
+    public static final Current CURRENT_LIMIT = Amps.of(80.0);
+
     public static final TalonFXConfiguration motorConfig = new TalonFXConfiguration();
 
     static {
+        motorConfig.CurrentLimits.StatorCurrentLimit = CURRENT_LIMIT.in(Amps);
+        motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        motorConfig.MotorOutput.Inverted =
+                InvertedValue.CounterClockwise_Positive; // positive is up
 
         // PID unit: Rotations
         motorConfig.Slot0.kP = 50.0;

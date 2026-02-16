@@ -18,7 +18,6 @@ public final class ElevatorConfig {
     public static final TalonFXConfiguration motorConfig = new TalonFXConfiguration();
 
     static {
-        motorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
         motorConfig.CurrentLimits.StatorCurrentLimit = CURRENT_LIMIT.in(Amps);
         motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
         motorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive; // positive is up

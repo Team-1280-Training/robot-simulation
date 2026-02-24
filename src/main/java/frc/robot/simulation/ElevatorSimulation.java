@@ -33,6 +33,7 @@ public class ElevatorSimulation {
 
     public ElevatorSimulation() {
         motorSim.Orientation = ChassisReference.Clockwise_Positive;
+        simulationPeriodic(); // Initialize hardware positions
     }
 
     public Distance getSimHeight() {

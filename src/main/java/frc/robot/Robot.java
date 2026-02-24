@@ -76,6 +76,8 @@ public class Robot extends TimedRobot {
                                         .withVelocityY(controller.getLeftX() * speed)
                                         .withRotationalRate(
                                                 controller.getRightX() * angularSpeed)));
+      
+        // operator bindings
         controller.y().onTrue(elevator.run(() -> elevator.moveHeightFraction(1.0)));
         controller.a().onTrue(elevator.run(() -> elevator.moveHeightFraction(0.0)));
         controller.b().onTrue(arm.run(() -> arm.moveAngle(ArmConst.MIN_ANGLE)));
@@ -121,8 +123,10 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {}
 
     // simulation code below: trainees, ignore this
-    private final ElevatorSimulation elevatorSim = new ElevatorSimulation();
-    private final ArmSimulation armSim = new ArmSimulation();
+
+    // Must be static so it initializes before subsystems
+    private static final ElevatorSimulation elevatorSim = new ElevatorSimulation();
+    private static final ArmSimulation armSim = new ArmSimulation();
 
     private final Mechanism2d mechanism = new Mechanism2d(1.5, 2.5);
     private final MechanismRoot2d mechanismRoot = mechanism.getRoot("root", 0.75, 0.05);

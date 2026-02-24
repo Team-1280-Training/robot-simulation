@@ -38,6 +38,7 @@ public class ArmSimulation {
 
     public ArmSimulation() {
         motorSim.Orientation = ChassisReference.CounterClockwise_Positive;
+        simulationPeriodic(); // Initialize hardware positions
     }
 
     public Angle getSimAngle() {

@@ -935,6 +935,8 @@ You will need to research and use the encoder (type `CANCoder` from wpilib) that
 
 A rotation of zero degrees is point horizontally straight out (to the right in the `Mechanism` widget in sim GUI). A positive rotation goes upwards (counterclockwise in the `Mechanism` widget).
 
+Tip: if your arm is not moving, test both clockwise and counterclockwise motor direction (in `ArmConfig.java`). Your motor may be inverted.
+
 #### Requirements
 Implement the arm subsystem with proper logging, safety, documentation, and code structure.
 

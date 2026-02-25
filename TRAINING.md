@@ -1138,7 +1138,7 @@ Control the elevator with the controller bindings or with the dashboard property
 Plot useful height fraction values on one plot.
 
 One additional helpful value to add to dashboard and plot is the motion profiling setpoint, which is separate from both the target height fraction and the measured height fraction. \
-It is gettable with `motor.getClosedLoopReference().getValue()`.
+It is gettable with `motor.getClosedLoopReference().getValue()` (this give a `double` in units of rotations).
 
 Additionally, you can add properties for the gains and constants such as `kP`, so you can edit them without restarting the simulation. You can do this by having a property setter that both sets the gain field and applies the configuration.
 

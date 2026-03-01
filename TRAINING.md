@@ -990,7 +990,7 @@ Suppose the spring's distance from its rest length (the error) is $X$.
 
 If you stretch the spring to $X = 1m$, then the spring applies a restoring force to bring itself back to $X = 0m$.
 
-The force the spring applies, $F$ (in newtons $N$), is *proportional* to the error, and is also in the opposite direction of it.
+The force the spring applies, $F$ (in newtons $N$), is *proportional* to the (negative) error.
 
 $F=-K_pX$, where $K_p$ is some "spring constant" with units of $N/m$.
 

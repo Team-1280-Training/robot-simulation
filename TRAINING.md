@@ -411,6 +411,8 @@ class Person {
 }
 ```
 
+> Note: If the Java code is giving errors or isn't updating for new edits, try using the `>Java: Clean Java Language Server Workspace` command to clear the Java cache and reload the window.
+
 ### Elevator Subsystem
 First, you will be implementing the elevator subsystem from scratch.
 

@@ -150,6 +150,8 @@ Since this is a simulation (no physical robot), we will also use the dashboards 
 Since there is no physical robot, you will just simulate the robot code instead with `>WPILib: Simulate Robot Code` command. \
 Run that command now.
 
+> Tip: Use the keyboard shortcut `F5` (or `fn`+`F5` on Mac) to simulate the robot code.
+
 > Note: You must redeploy or re-simulate your code if you want any new code changes to take effect.
 
 Once it builds, the simulation will open a specific dashboard called the *simulation GUI*.

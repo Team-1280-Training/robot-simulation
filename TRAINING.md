@@ -1107,12 +1107,12 @@ To find these values, use either manual tuning through trial and error, or use a
 
 To manually tune, follow these steps:
 1. Set all gains to zero
-2. Choose a decently slow maximum velocity and acceleration
+2. Choose a decently slow maximum velocity and acceleration (note that cruise velocity does not apply for `MotionMagicVelocityVoltage`)
 3. If applicable, increase $K_g$ as much as you can without the mechanism moving upwards
     - For `TalonFX`, select the gravity type - elevator static for elevators, and arm cosine for vertical arms
 4. Optionally, increase $K_s$ until just before the motor starts moving from rest
     - For `TalonFX`, choose the static feedforward sign as usually 'use velocity sign'
-5. Increase $K_v$ until the mechanism cruise *velocity* (when it is steady/constant) closes matches the velocity setpoint or requested cruise velocity
+5. Increase $K_v$ until the mechanism cruise/target *velocity* (when it is steady/constant) closes matches the velocity setpoint or requested cruise velocity
 6. Increase $K_a$ until the mechanism acceleration closely matches the requested acceleration
     - The mechanism position curve should now match the motion profile curve
 7. Increase $K_p$ until the mechanism starts to overshoot or oscillate

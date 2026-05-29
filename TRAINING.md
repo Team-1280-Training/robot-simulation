@@ -1106,6 +1106,7 @@ To find these values, use either manual tuning through trial and error, or use a
     - [Elevator Generator](https://v6.docs.ctr-electronics.com/en/stable/docs/tuner/tuner-elev/index.html)
 
 To manually tune, follow these steps:
+
 0. Decide what convention or system of measurement (e.g. 'rotations where 0 is the horizontal' or 'meters where 0 is bottom') you will use
 1. Ensure that the measured position of the motor is always correct, e.g. check mechanism ratio and startup position
 2. Set all gains to zero

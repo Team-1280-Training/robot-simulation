@@ -1106,19 +1106,21 @@ To find these values, use either manual tuning through trial and error, or use a
     - [Elevator Generator](https://v6.docs.ctr-electronics.com/en/stable/docs/tuner/tuner-elev/index.html)
 
 To manually tune, follow these steps:
-1. Set all gains to zero
-2. Choose a decently slow maximum velocity and acceleration (note that cruise velocity does not apply for `MotionMagicVelocityVoltage`)
-3. If applicable, increase $K_g$ as much as you can without the mechanism moving upwards
+0. Decide what convention or system of measurement (e.g. 'rotations where 0 is the horizontal' or 'meters where 0 is bottom') you will use
+1. Ensure that the measured position of the motor is always correct, e.g. check mechanism ratio and startup position
+2. Set all gains to zero
+3. Choose a decently slow maximum velocity and acceleration (note that cruise velocity does not apply for `MotionMagicVelocityVoltage`)
+4. If applicable, increase $K_g$ as much as you can without the mechanism moving upwards
     - For `TalonFX`, select the gravity type - elevator static for elevators, and arm cosine for vertical arms
-4. Optionally, increase $K_s$ until just before the motor starts moving from rest
+5. Optionally, increase $K_s$ until just before the motor starts moving from rest
     - For `TalonFX`, choose the static feedforward sign as usually 'use velocity sign'
-5. Increase $K_v$ until the mechanism cruise/target *velocity* (when it is steady/constant) closes matches the velocity setpoint or requested cruise velocity
-6. Increase $K_a$ until the mechanism acceleration closely matches the requested acceleration
+6. Increase $K_v$ until the mechanism cruise/target *velocity* (when it is steady/constant) closes matches the velocity setpoint or requested cruise velocity
+7. Increase $K_a$ until the mechanism acceleration closely matches the requested acceleration
     - The mechanism position curve should now match the motion profile curve
-7. Increase $K_p$ until the mechanism starts to overshoot or oscillate
-8. Either decrease $K_p$ or increase $K_d$ or both, until the oscillation stops
+8. Increase $K_p$ until the mechanism starts to overshoot or oscillate
+9. Either decrease $K_p$ or increase $K_d$ or both, until the oscillation stops
     - For $K_d$, avoid introducing jittering (from amplifying measurement noise)
-9. Increase maximum velocity and acceleration as desired, tweaking feedforward gains if necessary
+10. Increase maximum velocity and acceleration as desired, tweaking feedforward gains if necessary
     - Optionally, set a maximum jerk for smoother but slower motion
 
 Note that by step 7, the feedforward control (combined with motion profiling) alone should provide a lot of mechanism control already; the feedback control is supplementary.

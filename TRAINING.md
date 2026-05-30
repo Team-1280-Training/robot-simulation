@@ -1107,8 +1107,8 @@ To find these values, use either manual tuning through trial and error, or use a
 
 To manually tune, follow these steps:
 
-0. Decide what convention or system of measurement (e.g. 'rotations where 0 is the horizontal' or 'meters where 0 is bottom') you will use
-1. Ensure that the measured position of the motor is always correct, e.g. check mechanism ratio and startup position
+0. Decide what convention or system of measurement (e.g. 'rotations where 0 is the horizontal and ccw is positive' or 'meters where 0 is bottom and up is positive') you will use
+1. Ensure that the measured position and direction of the motor is always correct, e.g. check mechanism ratio and startup position
 2. Set all gains to zero
 3. Choose a decently slow maximum velocity and acceleration (note that cruise velocity does not apply for `MotionMagicVelocityVoltage`)
 4. If applicable, increase $K_g$ as much as you can without the mechanism moving upwards

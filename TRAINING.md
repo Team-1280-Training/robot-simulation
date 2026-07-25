@@ -52,7 +52,7 @@ You will learn WPILib coding and general FRC programming.
     - [Control Theory](#control-theory)
         - [Control Terminology](#control-terminology)
         - [Feedback Control](#feedback-control)
-            - [PID Spring Analogy](#seeing-properties-on-the-dashboard)
+            - [PID Spring Analogy](#pid-spring-analogy)
             - [PID Definition](#pid-definition)
             - [Using Velocity as the Control Unit](#using-velocity-as-the-control-unit)
         - [Feedforward Control](#feedforward-control)

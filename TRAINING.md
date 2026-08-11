@@ -207,6 +207,8 @@ At the top, the *menu bar* has a couple of different menus, but the only importa
 
 Under `NetworkTables / SmartDashboard`, enable both `Mechanism` and `Field` widgets. Resize both as you wish.
 
+> Note: You may need to resize or scroll through the `NetworkTables` window to find it.
+
 The `Field` widget displays the robot's estimated position and orientation. (It comes from a `Field2d` object published to SmartDashboard in the code.)
 
 The `Mechanism` widget shows our rudimentary simulated mechanisms, which will be explained later.
@@ -214,7 +216,7 @@ The `Mechanism` widget shows our rudimentary simulated mechanisms, which will be
 > Note: sometimes the `Field` or `Mechanism` widget doesn't work, it seems.
 
 #### Driving the Robot
-To drive the robot, first set the Robot Mode to `Teleoperated`.
+To drive the robot, first set the Robot State to `Teleoperated`.
 
 Then, use the keyboard controller bindings:
 - `WASD` (Left Joystick): move robot
@@ -225,7 +227,7 @@ Note that driving is *field-oriented*: it does not depend on the robot rotation,
 
 > Tip: If you are having trouble with the orientation of driving due to the horizontal field widget, imagine you are a driver on the left side of the widget, facing right.
 
-> Note: If the robot isn't responding to controller buttons, check that the Robot Mode is teleoperated. Also, the sim GUI window must be focused for the controls to work.
+> Note: If the robot isn't responding to controller buttons, check that the Robot State is teleoperated. Also, the sim GUI window must be focused for the controls to work.
 
 #### Plotting Values
 You can add plots for almost any value on the sim GUI.
@@ -254,8 +256,11 @@ You can see the plotted value change over time!
 ### Glass
 The Glass dashboard has an interface just like the simulation GUI, but can also be used for the physical robot.
 
-Simulate the code, and then find and open the Glass application, by searching up the application on your computer. \
-On mac, press `Command`+`Space` to search it up. \
+Simulate the code, and then find and open the Glass application.
+
+There are two ways to do this:
+- Use the `>WPILib: Start Tool` command to start `Glass` if possible. (On some computers it may not show in the dropdown.)
+- Search up the application on your computer. On mac, press `Command`+`Space` to search it up. \
 The Glass application icon is a flask with a blue substance.
 
 In Glass, in `NetworkTable Settings`, set the `Mode` to `Client (NT4)`. Then set the Team/IP to `localhost` (which is an IP that routes back to your own computer).
@@ -270,7 +275,7 @@ During the season, Glass will be one of the primary dashboards.
 ### AdvantageScope
 AdvantageScope is a modern dashboard with features such as a 3D field and (when used with a log replay framework such as AdvantageKit) replay abilities.
 
-Simulate the code, and then find and open the AdvantageScope application. You can also start it with `>WPILib: Start Tool` command.
+Simulate the code, and then open the AdvantageScope application, either with the `>WPILib: Start Tool` command or by searching your computer.
 
 First, connect it to the simulator. Under `File` in menu bar at top left, go to `Connect to Simulator`, then click `NetworkTables 4`. The data should appear.
 
@@ -1016,7 +1021,7 @@ The spring needs damping so that it slows down while approaching $X = 0m$.
 
 This is achieved by a damping force, which is proportional and opposite of the spring's velocity: \
 $F_d = -K_dV$ \
-$K_p$ is some damping constant in units of $N/(m/s)$
+$K_d$ is some damping constant in units of $N/(m/s)$
 
 As the spring accelerates while it goes to $X = 0m$, velocity increases and causes $F_d$ to grow, eventually slowing it down.
 
@@ -1074,11 +1079,11 @@ In the code, we may naively put the setpoint at the desired state immediately. B
 
 To fix this, we can generate a sequence of setpoints that smoothly go (interpolate) from the current state to the desired state over time, which greatly improves mechanism handling.
 
-This 'trajectory' of setpoints is called a *motion proifle*.
+This 'trajectory' of setpoints is called a *motion profile*.
 
 Additionally, motion profiles automatically provide velocity and acceleration setpoints for use with the $K_v$ and $K_g$ feedforward gains.
 
-Motion profiles are usually generated from a set of constraints on maximum velocity, maximum velocity, and optionally maximum jerk (rate of change of acceleration).
+Motion profiles are usually generated from a set of constraints on maximum (cruise) velocity, maximum acceleration, and optionally maximum jerk (rate of change of acceleration).
 
 In the code, the motion profile settings are configured once, and we only just need to periodically set a setpoint (just as if motion profiling is not used).
 
